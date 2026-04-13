@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Therapist Dashboard{% endblock %}
+
+{% block content %}
+<h2><i class="fas fa-user-md"></i> Therapist Dashboard</h2>
+<hr>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-user-injured"></i> Total Patients</h5>
+                <h3 class="card-text">{{ patients|length }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-calendar-check"></i> Upcoming Appointments</h5>
+                <h3 class="card-text">{{ appointments|length }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-file-medical"></i> Active Treatment Plans</h5>
+                <h3 class="card-text">24</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Upcoming Appointments</h5>
+            </div>
+            <div class="card-body">
+                {% if appointments %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Date & Time</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appointment in appointments %}
+                            <tr>
+                                <td>{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</td>
+                                <td>{{ appointment.appointment_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                                <td>{{ appointment.appointment_type }}</td>
+                                <td><span class="badge bg-primary">{{ appointment.status }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p>No upcoming appointments.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title"><i class="fas fa-users"></i> Recent Patients</h5>
+            </div>
+            <div class="card-body">
+                {% if patients %}
+                <ul class="list-group">
+                    {% for patient in patients %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ patient.first_name }} {{ patient.last_name }}
+                        <span class="badge bg-primary rounded-pill">{{ patient.sessions|length }} sessions</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>No patients found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title"><i class="fas fa-chart-line"></i> Patient Progress Overview</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="progressChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Progress chart
+const ctx = document.getElementById('progressChart').getContext('2d');
+const progressChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+            label: 'Mood Score',
+            data: [6, 7, 8, 7, 9, 8],
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.4
+        }, {
+            label: 'Anxiety Score',
+            data: [7, 6, 5, 6, 4, 5],
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            tension: 0.4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 10
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
