@@ -1,38 +1,61 @@
-# Patient Data Management System
+# Nastya Project
 
-A secure patient data management system for psychological information with the following features:
+A complete development environment setup with all necessary dependencies, tools, and configurations.
 
 ## Features
-- **User Authentication**: Secure login system with role-based access control
-- **Patient Profiles**: Comprehensive patient information management
-- **Medical History**: Detailed medical and psychological history tracking
-- **Demographic Information**: Complete patient demographic data
-- **Data Entry Forms**: User-friendly forms with data validation
-- **Secure Data Storage**: Encrypted storage for sensitive psychological information
-- **Responsive Interface**: Bootstrap-based responsive web interface
+
+- **Package Management**: Complete `package.json` with all dependencies
+- **Linting**: ESLint configuration with Airbnb style guide
+- **Development Server**: Webpack dev server setup
+- **Testing**: Jest testing framework
+- **Process Management**: Nodemon for development
+- **Build Tools**: Webpack for bundling
 
 ## Installation
 
 1. Clone the repository
 2. Install dependencies:
-   ```
-   pip install flask flask-sqlalchemy flask-login bcrypt
-   ```
-3. Run the application:
-   ```
-   python app.py
+   ```bash
+   npm install
    ```
 
-## Usage
-- Default admin user: username: `admin`, password: `admin123`
-- Access the application at `http://localhost:5000`
+## Available Scripts
 
-## Database
-- Uses SQLite database (patient_data.db)
-- Automatically creates database and default admin user on startup
+- `npm start` - Start the application
+- `npm run dev` - Start development server with nodemon
+- `npm run test` - Run tests with Jest
+- `npm run lint` - Lint JavaScript files
+- `npm run lint:fix` - Automatically fix linting issues
+- `npm run build` - Build for production
+- `npm run serve` - Start development server with webpack
 
-## Security Features
-- Password encryption using bcrypt
-- Secure session management
-- Data validation and sanitization
-- Role-based access control
+## Project Structure
+
+```
+.
+├── src/                 # Source files
+├── test/                # Test files
+├── dist/                # Build output
+├── config/              # Configuration files
+├── package.json         # Project configuration
+├── webpack.config.js    # Webpack configuration
+├── .eslintrc.json       # ESLint configuration
+├── .gitignore           # Git ignore rules
+└── README.md            # This file
+```
+
+## Dependencies
+
+- **Core**: Express.js, Lodash
+- **Development Tools**: Webpack, Webpack Dev Server, Nodemon
+- **Testing**: Jest, Supertest
+- **Linting**: ESLint with Airbnb configuration
+
+## Environment Setup
+
+The development environment is ready with:
+- ES6+ JavaScript support
+- Automatic linting
+- Hot reloading development server
+- Unit testing framework
+- Production build capabilities
