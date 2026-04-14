@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Treatment Plans - Session Tracking System{% endblock %}
+
+{% block content %}
+<h2><i class="fas fa-file-medical"></i> Treatment Plans</h2>
+<hr>
+
+<div class="card">
+    <div class="card-body">
+        {% if plans %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Title</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Therapist</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plan in plans %}
+                    <tr>
+                        <td>
+                            <a href="{{ url_for('patient_detail', patient_id=plan.patient.id) }}">
+                                {{ plan.patient.first_name }} {{ plan.patient.last_name }}
+                            </a>
+                        </td>
+                        <td>{{ plan.title }}</td>
+                        <td>{{ plan.start_date.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ plan.end_date.strftime('%Y-%m-%d') if plan.end_date else '—' }}</td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if plan.status == 'active' else 'secondary' if plan.status == 'completed' else 'warning' }}">
+                                {{ plan.status }}
+                            </span>
+                        </td>
+                        <td>{{ plan.therapist.username }}</td>
+                        <td>
+                            <a href="{{ url_for('patient_detail', patient_id=plan.patient.id) }}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted">No treatment plans found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

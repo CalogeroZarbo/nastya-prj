@@ -1,0 +1,11 @@
+# Memory Bank
+At the start of EVERY task, read all files in memory-bank/ before doing anything.
+After significant work, update the relevant memory-bank/ files.
+Use /newtask when context gets large to preserve state cleanly.
+
+# Project Rules
+- This is a sensitive psychological/clinical domain — be conservative with data handling
+- Never hardcode patient data or PII anywhere
+- Prefer sklearn pipelines over ad-hoc preprocessing chains
+- Keep notebooks and scripts separate: notebooks for exploration, scripts for production logic
+- When adding a new model or feature, update memory-bank/systemPatterns.md
