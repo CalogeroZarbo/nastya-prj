@@ -1,30 +1,32 @@
 # Memory Bank
-At the start of EVERY task, read all files in memory-bank/ before doing anything else.
-After significant work (new feature, bug fix, architectural change), update the relevant memory-bank/ files.
-Use /newtask when context gets large to preserve state cleanly.
+At the start of EVERY task, read ALL files in memory-bank/ before doing anything.
+After completing significant work, update the relevant memory-bank/ files.
+Before using /newtask, always update memory-bank/activeContext.md and memory-bank/progress.md first.
+Use /newtask when the conversation exceeds ~15 messages.
 
-# Domain Rules — Clinical / Mental Health Data
-- This app handles patient PII, diagnoses, medications, psychological assessments, and session transcripts
-- Never log, print, or expose patient data in plaintext outside the Flask app context
-- Never hardcode patient data or realistic-looking PII in source files or tests — use clearly fake placeholders (e.g. "Test Patient", DOB 2000-01-01)
-- The `suicidal` keyword group in `sentiment_analysis.py` is a clinical safety signal — do not modify it without explicit user approval
-- Do not add analytics, telemetry, external HTTP calls, or third-party integrations that could leak patient data
-- Treat all `db.Text` fields on Patient and Session models as potentially sensitive
+# Thinking
+For non-trivial tasks, use sequential-thinking MCP to plan before acting.
+Break the problem into steps, state them clearly, then execute one at a time.
+
+# Domain Rules
+- Clinical/psychological domain — handle all patient data conservatively
+- Never log, print, or hardcode raw patient data or PII
+- Psychological risk signals (suicidal ideation, self-harm) must never be trivialized in code, comments, or outputs
+- Keep ML/NLP models optional with graceful fallbacks
+- Never make clinical decisions — only surface data and patterns for professionals
 
 # Code Rules
-- Entry point is `app_simple.py` — all Flask routes live there, do not split routes across files unless explicitly asked
-- Follow existing route naming: list → `def patients()`, add → `def add_patient()`, detail → `def patient_detail(patient_id)`, edit → `def edit_patient(patient_id)`
-- Always use `patient_id=x` / `appointment_id=x` in `url_for()` — never bare `id=x`
-- Use SQLAlchemy 2.x API: `db.session.get(Model, id)` — not `Model.query.get(id)`
-- Strip whitespace and coerce empty strings to `None` before saving form data
-- When adding model columns: delete `instance/session_tracking.db` before restarting so schema is recreated
-- Type hints required in analysis modules (`sentiment_analysis.py`, `patient_data_model.py`, etc.); optional in Flask routes
-- PEP 8 throughout; section dividers `# ── Section ──` in `app_simple.py`
-- New templates must extend `base.html` with `{% block title %}` and `{% block content %}`
+- Python, PEP8, type hints on all public methods
+- Concise — no filler code or obvious comments
+- Meaningful comments where logic is non-obvious
+- Dataclasses or pydantic for structured data, not raw dicts
+- Explicit exception handling, no bare except:
+- Prefer sklearn pipelines over ad-hoc preprocessing
+- Notebooks for exploration only, scripts for production logic
 
-# Behavior Rules
-- Always ask before running terminal commands
-- State your approach in one sentence before writing code
-- If the request is ambiguous, ask one clarifying question before proceeding
-- Never remove existing functionality unless explicitly told to
-- After completing a task, summarise: what changed, what files were modified, and any follow-up items
+# Behavior
+- ALWAYS ask before running any terminal command
+- State approach in 2-3 lines before writing code
+- Never remove existing functionality unless explicitly told
+- Summarize what changed and why after every task
+- Suggest /newtask proactively when context grows large
