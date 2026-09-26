@@ -46,3 +46,9 @@ Thumbs.db
 *.log
 *.tmp
 *.temp
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+
+# cline local machine state
+.claude/settings.local.json
